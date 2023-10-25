@@ -1,0 +1,6 @@
+###
+POST http://localhost:8017/tags
+
+{
+    "nom": "tag1"
+}

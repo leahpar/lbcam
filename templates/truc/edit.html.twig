@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <form method="post">
+
+        {{ form_widget(form._token) }} {# Hidden #}
+
+        {{ form_errors(form) }}
+
+        <p>
+            {{ form_label(form.nom, 'nom') }}
+            {{ form_widget(form.nom) }}
+        </p>
+        <p>
+            {{ form_label(form.description, 'description') }}
+            {{ form_widget(form.description) }}
+        </p>
+        <p>
+            {{ form_label(form.tags, 'tags') }}
+            {{ form_widget(form.tags) }}
+        </p>
+
+        <button type="submit">Publier</button>
+
+    </form>
+
+{% endblock %}
+

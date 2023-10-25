@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div>
+
+    {% for truc in trucs %}
+        {{ include('truc/truc.html.twig', { 'truc': truc }) }}
+    {% else %}
+        <p>Aucun truc trouvé.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

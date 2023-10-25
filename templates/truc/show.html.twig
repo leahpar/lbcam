@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ truc.nom }}</h1>
+
+    {% for img in truc.images %}
+        <img src="{{ asset('images/' ~ img.filename) }}">
+    {% endfor %}
+
+    <p>{{ truc.description }}</p>
+
+    {% for tag in truc.tags %}
+        <a href="{{ path('trucs_list', { 'tag': tag.slug }) }}">{{ tag.nom }}</a>
+    {% endfor %}
+
+    <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
+
+
+{% endblock %}
+

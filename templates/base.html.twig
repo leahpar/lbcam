@@ -2,15 +2,38 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
 
-        {% block javascripts %}
-        {% endblock %}
+        <title>LBCAM !</title>
+        {# TODO: favicon, PWA toussa toussa #}
+
+        {# Meh... C'nul que c'est pas importé automatiquement par l'AssetMapper :/ #}
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.3/dist/css/tom-select.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     </head>
     <body>
+
+        <header>
+
+            {# Recherche (nom, tag) #}
+            <form method="get" action="{{ path('trucs_list') }}">
+                <input type="search" name="search" placeholder="Rechercher un truc">
+            </form>
+
+            {# Menu #}
+            <nav>
+                <ul>
+                    <li><a href="{{ path('trucs_list') }}">Accueil</a></li>
+                    <li><a href="{{ path('trucs_add') }}">Proposer un trucs</a></li>
+                </ul>
+            </nav>
+
+        </header>
+
         {% block body %}{% endblock %}
+
+        {# JS #}
+        {{ importmap() }}
+
     </body>
 </html>
