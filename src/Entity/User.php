@@ -20,6 +20,9 @@ class User implements UserInterface
     #[ORM\Column]
     private array $roles = [];
 
+    #[ORM\Column(length: 255)]
+    public ?string $nom = null;
+
     public function getId(): ?int
     {
         return $this->id;

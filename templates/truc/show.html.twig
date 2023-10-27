@@ -5,7 +5,7 @@
     <h1>{{ truc.nom }}</h1>
 
     {% for img in truc.images %}
-        <img src="{{ asset('images/' ~ img.filename) }}">
+        <img src="{{ asset('images/' ~ img.filename) }}" style="object-fit: contain" width="300px">
     {% endfor %}
 
     <p>{{ truc.description }}</p>
@@ -15,7 +15,7 @@
     {% endfor %}
 
     <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
-
+    <a href="{{ path('truc_delete', {slug: truc.slug}) }}">Supprimer</a>
 
 {% endblock %}
 

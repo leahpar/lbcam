@@ -5,7 +5,7 @@
 <div>
 
     {% for truc in trucs %}
-        {{ include('truc/truc.html.twig', { 'truc': truc }) }}
+        {{ include('truc/truc.html.twig', { truc: truc }) }}
     {% else %}
         <p>Aucun truc trouvé.</p>
     {% endfor %}

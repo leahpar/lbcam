@@ -2,15 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
 use App\Entity\Truc;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class TrucType extends AbstractType
 {
@@ -28,11 +25,11 @@ class TrucType extends AbstractType
             ])
             ->add('tags', TagsCollectionType::class, [
                 'required' => false,
-                'autocomplete' => true,
-                'autocomplete_url' => '/tags',
-                'tom_select_options' => [
-                    'create' => true,
-                ],
+//                'autocomplete' => true,
+//                'autocomplete_url' => '/tags',
+//                'tom_select_options' => [
+//                    'create' => true,
+//                ],
             ])
         ;
 
@@ -42,6 +39,7 @@ class TrucType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Truc::class,
+            'allow_extra_fields' => true,
         ]);
     }
 }

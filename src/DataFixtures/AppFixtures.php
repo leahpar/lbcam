@@ -16,7 +16,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class AppFixtures extends Fixture
 {
     public function __construct(
-        #[Autowire('%uploadDir%')]
+        #[Autowire('%upload_dir%')]
         private readonly string $uploadDir,
     ) {}
 

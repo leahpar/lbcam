@@ -2,6 +2,20 @@
 
 {% block body %}
 
+
+    <style>
+        .dz-filename {
+            display: none;
+        }
+        .dz-size {
+            display: none;
+        }
+        .dz-preview:hover .dz-image img {
+            transform: scale(1) !important;
+            -webkit-filter: blur(0px) !important;
+            filter: blur(0px) !important;
+        }
+    </style>
     <form method="post">
 
         {{ form_widget(form._token) }} {# Hidden #}
@@ -21,9 +35,82 @@
             {{ form_widget(form.tags) }}
         </p>
 
-        <button type="submit">Publier</button>
+        <button type="submit">Enregistrer</button>
 
     </form>
 
+    {% if truc.id %}
+        <h2>Les images de mon truc</h2>
+        {# Truc créé, on peut uploader des images #}
+        <form action="{{ path('truc_add_image', {'slug': truc.slug}) }}" class="dropzone" id="my-dropzone">
+        </form>
+    {% else %}
+        <p>L'ajout de photo se fera à l'étape suivante</p>
+    {% endif %}
+
 {% endblock %}
 
+{% block javascripts %}
+    <script>
+
+        // TOM-SELECT
+        new TomSelect('#truc_tags', {
+            create: true,
+            createOnBlur: true,
+            plugins: {
+                remove_button:{
+                    title:'Remove this item',
+                }
+            },
+            'options': [
+                {% for tag in tags %}
+                    {value: '{{ tag.nom }}', text: '{{ tag.nom }}'},
+                {% endfor %}
+            ],
+        });
+
+
+        // DROPZONE
+        Dropzone.autoDiscover = false
+        const myDropzone = new Dropzone("#my-dropzone", {
+            paramName: "file",
+            parallelUploads: 5,
+            acceptedFiles: "image/*",
+            maxFilesize: 10, // MB
+
+            //capture: "camera",
+
+            addRemoveLinks: true,
+
+            dictCancelUpload: "Annuler",
+            dictRemoveFile: "Supprimer",
+            dictDefaultMessage: "Ajouter des photos...",
+
+            init: function() {
+                {% for image in truc.images %}
+                    this.displayExistingFile({
+                        name: '{{ image.filename }}',
+                        image_id: '{{ image.id }}',
+                    }, '{{ asset('images/' ~ image.filename) }}');
+                {% endfor %}
+            }
+        });
+
+        myDropzone.on('complete', (file) => {
+            console.log('complete', file);
+            const image = JSON.parse(file.xhr.response).image;
+            file.image_id = image.id;
+        });
+
+        myDropzone.on('removedfile', (file) => {
+            console.log('removedfile', file);
+            const url = '{{ path('truc_del_image', {slug: truc.slug, id: "XX"}) }}'.replace('XX', file.image_id);
+            fetch(url, {method: 'DELETE'})
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(e => console.log(e));
+        });
+
+
+    </script>
+{% endblock %}

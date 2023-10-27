@@ -33,6 +33,9 @@ class Truc
     #[ORM\ManyToMany(targetEntity: Tag::class, cascade: ['persist'])]
     public Collection $tags;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    public bool $publie = false;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -63,7 +66,7 @@ class Truc
 
     public function getMainImage(): ?string
     {
-        return $this->images->first()?->filename;
+        return count($this->images) ? $this->images->first()->filename : null;
     }
 
     public function __toString(): string
