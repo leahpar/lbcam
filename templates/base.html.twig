@@ -28,6 +28,20 @@
                 </ul>
             </nav>
 
+            {# Messages flash #}
+            <div id="flashContainer">
+                {# label : 'notice', 'success', 'warning', 'error' #}
+                {% set class = {'notice':'bg-navy','success':'bg-aqua','warning':'bg-or','error':'bg-red'} %}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flashMessage text-white font-bold p-3 text-center {{ class[label] }}">
+                            {{ message|raw }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+
         </header>
 
         {% block body %}{% endblock %}

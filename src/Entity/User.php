@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -22,6 +24,18 @@ class User implements UserInterface
 
     #[ORM\Column(length: 255)]
     public ?string $nom = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Pret::class, orphanRemoval: true)]
+    public Collection $prets;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Truc::class, orphanRemoval: true)]
+    public Collection $trucs;
+
+    public function __construct()
+    {
+        $this->prets = new ArrayCollection();
+        $this->trucs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -80,8 +94,29 @@ class User implements UserInterface
 
     public function __toString(): string
     {
-        return $this->username;
+        return $this->nom;
     }
 
+    public function addTruc(Truc $truc): static
+    {
+        if (!$this->trucs->contains($truc)) {
+            $this->trucs->add($truc);
+            $truc->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTruc(Truc $truc): static
+    {
+        if ($this->trucs->removeElement($truc)) {
+            // set the owning side to null (unless already changed)
+            if ($truc->getUser() === $this) {
+                $truc->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

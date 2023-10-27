@@ -3,6 +3,7 @@
 {% block body %}
 
     <h1>{{ truc.nom }}</h1>
+    <h2>{{ truc.user.nom }}</h2>
 
     {% for img in truc.images %}
         <img src="{{ asset('images/' ~ img.filename) }}" style="object-fit: contain" width="300px">
@@ -16,6 +17,26 @@
 
     <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
     <a href="{{ path('truc_delete', {slug: truc.slug}) }}">Supprimer</a>
+
+    {% if app.user == truc.user %}
+
+        {% if truc.isPrete %}
+            En cours de prêt...
+        {% else %}
+            <a href="{{ path('truc_preter', {slug: truc.slug}) }}">Prêter</a>
+        {% endif %}
+
+        {% for pret in truc.prets %}
+            <p>
+                Prêté à {{ pret.user.nom }}
+                le {{ pret.dateDebut|date('d/m/Y') }}
+
+                {% if pret.dateFin %}
+                rendu le {{ pret.dateFin|date('d/m/Y') }}
+                {% endif %}
+            </p>
+        {% endfor %}
+    {% endif %}
 
 {% endblock %}
 

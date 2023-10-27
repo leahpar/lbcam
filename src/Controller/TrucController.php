@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Image;
+use App\Entity\Pret;
 use App\Entity\Tag;
 use App\Entity\Truc;
+use App\Form\PretType;
 use App\Form\TrucType;
 use App\Search\TagSearch;
 use App\Search\TrucSearch;
@@ -121,6 +123,8 @@ class TrucController extends AbstractController
             'truc' => $truc,
         ]);
     }
+
+
 
 
 }

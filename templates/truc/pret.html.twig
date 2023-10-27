@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ truc.nom }}</h1>
+    <img src="{{ asset('images/' ~ truc.mainImage) }}" style="object-fit: contain" width="200px">
+
+    <form method="post">
+
+        {{ form_widget(form._token) }} {# Hidden #}
+
+        {{ form_errors(form) }}
+
+        <p>
+            {{ form_label(form.user, 'Emprunteur') }}
+            {{ form_widget(form.user) }}
+        </p>
+        <p>
+            {{ form_label(form.dateDebut, 'Date de prêt') }}
+            {{ form_widget(form.dateDebut) }}
+        </p>
+        <p>
+            {{ form_label(form.commentaire, 'Commentaire') }}
+            {{ form_widget(form.commentaire) }}
+        </p>
+
+        <button type="submit">Enregistrer</button>
+
+    </form>
+
+{% endblock %}

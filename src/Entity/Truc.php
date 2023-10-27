@@ -36,10 +36,19 @@ class Truc
     #[ORM\Column(type: Types::BOOLEAN)]
     public bool $publie = false;
 
+    #[ORM\OneToMany(mappedBy: 'truc', targetEntity: Pret::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['dateDebut' => 'DESC'])]
+    public Collection $prets;
+
+    #[ORM\ManyToOne(inversedBy: 'trucs')]
+    #[ORM\JoinColumn(nullable: false)]
+    public ?User $user = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->prets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +102,16 @@ class Truc
     {
         $slugger = new AsciiSlugger();
         $this->slug = strtolower($slugger->slug($this->nom));
+    }
+
+    public function isPrete(): bool
+    {
+        foreach ($this->prets as $pret) {
+            if ($pret->dateFin === null) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
