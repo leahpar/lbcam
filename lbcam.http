@@ -4,3 +4,9 @@ POST http://localhost:8017/tags
 {
     "nom": "tag1"
 }
+
+###
+POST http://10.0.0.74:8080/cover/grille/stop
+
+###
+GET http://10.0.0.74:8080/cover/grille/status

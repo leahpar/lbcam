@@ -38,7 +38,8 @@ class TrucRepository extends ServiceEntityRepository
         }
 
         $query = $this->createQueryBuilder('t');
-        $query->leftJoin('t.tags', 'tag');
+        $query->leftJoin('t.tags', 'tag')->addSelect('tag');
+        $query->leftJoin('t.images', 'image')->addSelect('image');
 
         if ($search->search) {
             foreach (explode(' ', $search->search) as $word) {
@@ -49,6 +50,11 @@ class TrucRepository extends ServiceEntityRepository
         if ($search->tag) {
             $query->andWhere('tag.slug = :tag')
                 ->setParameter('tag', $search->tag);
+        }
+
+        if ($search->user) {
+            $query->andWhere('t.user = :user')
+                ->setParameter('user', $search->user);
         }
 
         $order = $search->order ?? 'DESC';

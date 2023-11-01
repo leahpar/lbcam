@@ -2,7 +2,6 @@
 
 {% block body %}
 
-
     <style>
         .dz-filename {
             display: none;
@@ -51,6 +50,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{% if truc.id %}
     <script>
 
         // TOM-SELECT
@@ -111,6 +111,6 @@
                 .catch(e => console.log(e));
         });
 
-
     </script>
+{% endif %}
 {% endblock %}

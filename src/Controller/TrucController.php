@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Image;
-use App\Entity\Pret;
 use App\Entity\Tag;
 use App\Entity\Truc;
-use App\Form\PretType;
+use App\Entity\User;
 use App\Form\TrucType;
 use App\Search\TagSearch;
 use App\Search\TrucSearch;
@@ -24,10 +23,16 @@ class TrucController extends AbstractController
     #[Route('/', name: 'trucs_list')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
-        $trucs = $em->getRepository(Truc::class)->search(new TrucSearch([
+        $search = new TrucSearch([
             ...$request->query->all(),
             'publie' => true,
-        ]));
+        ]);
+
+        if ($request->query->getBoolean("me")) {
+            $search->user = $this->getUser();
+        }
+
+        $trucs = $em->getRepository(Truc::class)->search($search);
 
         return $this->render('truc/index.html.twig', [
             'trucs' => $trucs,
