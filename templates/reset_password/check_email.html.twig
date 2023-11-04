@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <p>Bla bla bla t'as reçu un email !</p>
+
+    <p>Si t'es pas douée, tu peux toujours renvoyer un autre email en cliquant <a href="{{ path('app_forgot_password_request') }}">ici</a>.</p>
+
+    <p>Si t'as soudainemant retrouvé la mémoire, tu peux te connecter <a href="{{ path('app_login') }}">ici</a>.</p>
+
+{% endblock %}

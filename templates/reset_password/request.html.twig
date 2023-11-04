@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Ouin ouin ! j'ai perdu mon mot de passe comme un gros naze !</h1>
+
+    {{ form_start(requestForm) }}
+
+        {{ form_label(requestForm.email, "Mon email") }}
+        {{ form_widget(requestForm.email) }}
+
+        <button>Envoyer un lien</button>
+
+    <a href="{{ path('app_login') }}">nan c'est mon je me souviens de mon mot de passe</a>
+
+    {{ form_end(requestForm) }}
+{% endblock %}

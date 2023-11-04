@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <h1>Nouveau mot de passe</h1>
+
+    {{ form_start(resetForm) }}
+
+        {{ form_label(resetForm.plainPassword.first, "Mot de passe") }}
+        {{ form_widget(resetForm.plainPassword.first) }}
+
+        {{ form_label(resetForm.plainPassword.second, "Le même") }}
+        {{ form_widget(resetForm.plainPassword.second) }}
+
+        <button>Enregistrer</button>
+
+    <a href="{{ path('app_login') }}">nan c'est mon je me souviens de mon mot de passe</a>
+
+    {{ form_end(resetForm) }}
+{% endblock %}

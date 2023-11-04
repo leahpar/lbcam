@@ -20,7 +20,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class TrucController extends AbstractController
 {
-    #[Route('/', name: 'trucs_list')]
+    #[Route('/trucs', name: 'trucs_list')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $search = new TrucSearch([

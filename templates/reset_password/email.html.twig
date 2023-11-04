@@ -1,0 +1,8 @@
+<h1>Yo !</h1>
+
+<p>Ton nouveau mot de passe c'est par ici :</p>
+
+{% set url = url('app_reset_password', {token: resetToken.token}) %}
+<a href="{{ url }}">{{ url }}</a>
+
+<p>Guten tag !</p>

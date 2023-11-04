@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
 
@@ -15,19 +15,24 @@
 
         <header>
 
-            {# Recherche (nom, tag) #}
-            <form method="get" action="{{ path('trucs_list') }}">
-                <input type="search" name="search" placeholder="Rechercher un truc">
-            </form>
+            {% if app.user %}
 
-            {# Menu #}
-            <nav>
-                <ul>
-                    <li><a href="{{ path('trucs_list') }}">Accueil</a></li>
-                    <li><a href="{{ path('trucs_add') }}">Proposer un trucs</a></li>
-                    <li><a href="{{ path('trucs_list', {me: true}) }}">Mes trucs</a></li>
-                </ul>
-            </nav>
+                {# Recherche (nom, tag) #}
+                <form method="get" action="{{ path('trucs_list') }}">
+                    <input type="search" name="search" placeholder="Rechercher un truc">
+                </form>
+
+                {# Menu #}
+                <nav>
+                    <ul>
+                        <li><a href="{{ path('trucs_list') }}">Accueil</a></li>
+                        <li><a href="{{ path('trucs_add') }}">Proposer un trucs</a></li>
+                        <li><a href="{{ path('trucs_list', {me: true}) }}">Mes trucs</a></li>
+                        <li><a href="{{ path('app_logout') }}">Me déconnecter</a></li>
+                    </ul>
+                </nav>
+
+            {% endif %}
 
             {# Messages flash #}
             <div id="flashContainer">
@@ -42,8 +47,8 @@
                 {% endfor %}
             </div>
 
-
         </header>
+
 
         {% block body %}{% endblock %}
 

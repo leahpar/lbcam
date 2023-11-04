@@ -1,0 +1,25 @@
+{# templates/login/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <form action="{{ path('app_login') }}" method="post">
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <label for="username">Email :</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}">
+
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="_password">
+
+        <label>
+            <input type="checkbox" name="_remember_me" checked>
+            Keep me logged in
+        </label>
+
+        <button type="submit">login</button>
+
+        <a href="{{ path('app_forgot_password_request') }}">Je suis un gros boulet</a>
+    </form>
+{% endblock %}

@@ -6,10 +6,11 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,13 +18,16 @@ class User implements UserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $username = null;
+    private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column(length: 255)]
-    public ?string $nom = null;
+    #[ORM\Column(type: 'string')]
+    private string $password;
+
+    #[ORM\Column(type: 'string')]
+    public string $nom;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Pret::class, orphanRemoval: true)]
     public Collection $prets;
@@ -44,13 +48,12 @@ class User implements UserInterface
 
     public function getUsername(): ?string
     {
-        return $this->username;
+        return $this->email;
     }
 
     public function setUsername(string $username): static
     {
-        $this->username = $username;
-
+        $this->email = $username;
         return $this;
     }
 
@@ -61,7 +64,7 @@ class User implements UserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->username;
+        return (string) $this->email;
     }
 
     /**
@@ -84,6 +87,32 @@ class User implements UserInterface
     }
 
     /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
      * @see UserInterface
      */
     public function eraseCredentials(): void
@@ -97,25 +126,31 @@ class User implements UserInterface
         return $this->nom;
     }
 
-    public function addTruc(Truc $truc): static
+    public function addTruc(Truc $truc): self
     {
         if (!$this->trucs->contains($truc)) {
             $this->trucs->add($truc);
-            $truc->setUser($this);
+            $truc->user = $this;
         }
-
         return $this;
     }
 
-    public function removeTruc(Truc $truc): static
+    public function removeTruc(Truc $truc): self
     {
         if ($this->trucs->removeElement($truc)) {
-            // set the owning side to null (unless already changed)
-            if ($truc->getUser() === $this) {
-                $truc->setUser(null);
-            }
+            $truc->user = null;
         }
+        return $this;
+    }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
         return $this;
     }
 
