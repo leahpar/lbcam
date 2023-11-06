@@ -18,10 +18,22 @@
     <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
     <a href="{{ path('truc_delete', {slug: truc.slug}) }}">Supprimer</a>
 
+    {# Propriétaire du truc #}
     {% if app.user == truc.user %}
+
+        <form action="{{ path('truc_publier', {slug: truc.slug}) }}" method="post">
+        {% if truc.publie %}
+            Publié
+            <button type="submit" name="publie" value="false">Dépublier</button>
+        {% else %}
+            Non publié
+            <button type="submit" name="publie" value="true">Publier</button>
+        {% endif %}
+        </form>
 
         {% if truc.isPrete %}
             En cours de prêt...
+            <a href="{{ path('truc_rendre', {slug: truc.slug}) }}" onclick="return confirm('Le truc a bien été rendu ?')">Rendre</a>
         {% else %}
             <a href="{{ path('truc_preter', {slug: truc.slug}) }}">Prêter</a>
         {% endif %}

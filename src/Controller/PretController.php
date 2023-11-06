@@ -41,11 +41,14 @@ class PretController extends AbstractController
     }
 
     #[Route('/trucs/{slug}/rendre', name: 'truc_rendre')]
-    public function rendre(Truc $truc, EntityManagerInterface $em): Response
+    public function rendre(Request $request, Truc $truc, EntityManagerInterface $em): Response
     {
+        $referer = $request->headers->get('referer');
+
         if (!$truc->isPrete()) {
-            $this->addFlash('danger', 'Ce truc n\'est pas prêté');
-            return $this->redirectToRoute('truc_show', ['slug' => $truc->slug]);
+            $this->addFlash('error', 'Ce truc n\'est pas prêté');
+            //return $this->redirectToRoute('truc_show', ['slug' => $truc->slug]);
+            return $this->redirect($referer);
         }
 
         /** @var Pret $pret */
@@ -54,7 +57,8 @@ class PretController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', 'Rendu !');
-        return $this->redirectToRoute('truc_show', ['slug' => $truc->slug]);
+        //return $this->redirectToRoute('truc_show', ['slug' => $truc->slug]);
+        return $this->redirect($referer);
     }
 
 

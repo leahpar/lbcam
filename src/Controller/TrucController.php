@@ -30,6 +30,7 @@ class TrucController extends AbstractController
 
         if ($request->query->getBoolean("me")) {
             $search->user = $this->getUser();
+            $search->publie = null;
         }
 
         $trucs = $em->getRepository(Truc::class)->search($search);
@@ -111,6 +112,16 @@ class TrucController extends AbstractController
         return $this->json([
             'success' => true,
         ]);
+    }
+
+    #[Route('trucs/{slug}/publier', name: 'truc_publier', methods: ['POST'])]
+    public function publier(Request $request, EntityManagerInterface $em, Truc $truc): Response
+    {
+        $truc->publie = $request->request->getBoolean('publie');
+        $em->flush();
+
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer);
     }
 
     #[Route('/trucs/{slug}/delete', name: 'truc_delete')]

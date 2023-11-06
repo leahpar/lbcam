@@ -1,5 +1,39 @@
-<a href="{{ path('truc_show', { slug: truc.slug }) }}">
-    <h2>{{ truc.nom }}</h2>
-    <img src="{{ asset('images/' ~ truc.mainImage) }}" style="object-fit: contain" width="200px">
-</a>
+<div>
+
+    <a href="{{ path('truc_show', { slug: truc.slug }) }}">
+        <h2>{{ truc.nom }}</h2>
+        <img src="{{ asset('images/' ~ truc.mainImage) }}" style="object-fit: contain" width="200px">
+    </a>
+
+    {# Propriétaire du truc #}
+    {% if app.user == truc.user %}
+
+        <form action="{{ path('truc_publier', {slug: truc.slug}) }}" method="post">
+            {% if truc.publie %}
+                Publié
+                <button type="submit" name="publie" value="false">Dépublier</button>
+            {% else %}
+                Non publié
+                <button type="submit" name="publie" value="true">Publier</button>
+            {% endif %}
+        </form>
+
+
+        {% if truc.pret %}
+            Prêté à {{ truc.pret.user }}
+            le {{ truc.pret.dateDebut|date('d/m/Y') }}
+            <a href="{{ path('truc_rendre', {slug: truc.slug}) }}" onclick="return confirm('Le truc a bien été rendu ?')">Rendre</a>
+        {% else %}
+            <a href="{{ path('truc_preter', {slug: truc.slug}) }}">Prêter</a>
+        {% endif %}
+
+    {% else %}
+
+        {% if truc.pret %}
+            Déjà prêté !
+        {% endif %}
+
+    {% endif %}
+
+</div>
 

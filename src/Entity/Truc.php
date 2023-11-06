@@ -37,7 +37,7 @@ class Truc
     public bool $publie = false;
 
     #[ORM\OneToMany(mappedBy: 'truc', targetEntity: Pret::class, orphanRemoval: true)]
-    #[ORM\OrderBy(['dateDebut' => 'DESC'])]
+    #[ORM\OrderBy(['dateDebut' => 'DESC', 'id' => 'DESC'])]
     public Collection $prets;
 
     #[ORM\ManyToOne(inversedBy: 'trucs')]
@@ -112,6 +112,16 @@ class Truc
             }
         }
         return false;
+    }
+
+    public function getPret(): ?Pret
+    {
+        foreach ($this->prets as $pret) {
+            if ($pret->dateFin === null) {
+                return $pret;
+            }
+        }
+        return null;
     }
 
 }

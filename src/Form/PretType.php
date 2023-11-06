@@ -18,7 +18,10 @@ class PretType extends AbstractType
                 'class' => User::class,
                 'required' => true,
                 'placeholder' => 'Choisir une princesse',
-                // TODO: add a query_builder option to filter soi-même
+                // On peut se choisir soi-même (= s'auto-réserver le truc)
+                //'query_builder' => fn($repo) => $repo->createQueryBuilder('u')
+                //    ->andWhere('u.id != :user')
+                //    ->setParameter('user', $this->security->getUser()),
             ])
             ->add('dateDebut', null, [
                 'widget' => 'single_text',
