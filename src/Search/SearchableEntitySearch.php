@@ -18,4 +18,6 @@ class SearchableEntitySearch
     // Tri
     public ?string $tri = null;
     public ?string $order = null;
+
+    public ?int $count = null;
 }

@@ -11,12 +11,18 @@
 
     <p>{{ truc.description }}</p>
 
-    {% for tag in truc.tags %}
-        <a href="{{ path('trucs_list', { 'tag': tag.slug }) }}">{{ tag.nom }}</a>
-    {% endfor %}
+    <p>
+        Tags :
+        {% for tag in truc.tags %}
+            <a href="{{ path('trucs_list', { 'tag': tag.slug }) }}">{{ tag.nom }}</a>
+        {% endfor %}
+    </p>
 
-    <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
-    <a href="{{ path('truc_delete', {slug: truc.slug}) }}" onclick="return confirm('Supprimer le truc ? Cette action est définitive et irrévocable.')">Supprimer</a>
+    <p>
+        Actions :
+        <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
+        <a href="{{ path('truc_delete', {slug: truc.slug}) }}" onclick="return confirm('Supprimer le truc ? Cette action est définitive et irrévocable.')">Supprimer</a>
+    </p>
 
     {# Propriétaire du truc #}
     {% if app.user == truc.user %}

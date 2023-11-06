@@ -40,11 +40,7 @@ class TrucController extends AbstractController
 
         return $this->render('truc/index.html.twig', [
             'trucs' => $trucs,
-            'search' => [
-                'page' => $search->page,
-                'limit' => $search->limit,
-                'count' => $trucs->count(),
-            ],
+            'search' => $search,
 //            'tags' => $tags,
         ]);
     }

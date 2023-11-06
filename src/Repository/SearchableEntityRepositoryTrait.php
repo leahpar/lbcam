@@ -27,7 +27,10 @@ trait SearchableEntityRepositoryTrait
         if ($search->limit) $query->setMaxResults($search->limit);
 
         // Paginator
-        return new Paginator($query->getQuery(), $fetchJoinCollection = true);
+        $paginator = new Paginator($query->getQuery(), $fetchJoinCollection = true);
+
+        $search->count = $paginator->count();
+        return $paginator;
     }
 
     abstract function getSearchQuery(SearchableEntitySearch $search): QueryBuilder;
