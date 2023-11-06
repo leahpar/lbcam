@@ -28,11 +28,4 @@ class TagController extends AbstractController
         ]);
     }
 
-    #[Route('/tags/nuage', name: 'tags_nuage')]
-    public function nuageTag(EntityManagerInterface $em): Response
-    {
-        $tags = $em->getRepository(Truc::class)->getTagsCpt();
-        return $this->json($tags);
-    }
-
 }

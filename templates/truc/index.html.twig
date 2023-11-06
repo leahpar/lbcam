@@ -2,14 +2,14 @@
 
 {% block body %}
 
-<div>
+    <div>
+        {% for truc in trucs %}
+            {{ include('truc/truc.html.twig', { truc: truc }) }}
+        {% else %}
+            <p>Aucun truc trouvé.</p>
+        {% endfor %}
+    </div>
 
-    {% for truc in trucs %}
-        {{ include('truc/truc.html.twig', { truc: truc }) }}
-    {% else %}
-        <p>Aucun truc trouvé.</p>
-    {% endfor %}
-
-</div>
+    {{ include('truc/pagination.html.twig', {search: search}) }}
 
 {% endblock %}

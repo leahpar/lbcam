@@ -22,11 +22,11 @@
         {{ form_errors(form) }}
 
         <p>
-            {{ form_label(form.nom, 'nom') }}
+            {{ form_label(form.nom, 'Nom du truc') }}
             {{ form_widget(form.nom) }}
         </p>
         <p>
-            {{ form_label(form.description, 'description') }}
+            {{ form_label(form.description, 'Description du truc') }}
             {{ form_widget(form.description) }}
         </p>
         <p>
@@ -44,13 +44,12 @@
         <form action="{{ path('truc_add_image', {'slug': truc.slug}) }}" class="dropzone" id="my-dropzone">
         </form>
     {% else %}
-        <p>L'ajout de photo se fera à l'étape suivante</p>
+        <p>(L'ajout de photo se fera à l'étape suivante)</p>
     {% endif %}
 
 {% endblock %}
 
 {% block javascripts %}
-{% if truc.id %}
     <script>
 
         // TOM-SELECT
@@ -70,6 +69,7 @@
         });
 
 
+    {% if truc.id %}
         // DROPZONE
         Dropzone.autoDiscover = false
         const myDropzone = new Dropzone("#my-dropzone", {
@@ -110,7 +110,7 @@
                 .then(data => console.log(data))
                 .catch(e => console.log(e));
         });
+    {% endif %}
 
     </script>
-{% endif %}
 {% endblock %}

@@ -16,20 +16,16 @@ class TrucType extends AbstractType
     {
         $builder
             ->add('nom', Type\TextType::class, [
-                'label' => 'Nom du truc',
                 'required' => true,
             ])
             ->add('description', Type\TextareaType::class, [
-                'label' => 'Description du truc',
                 'required' => false,
             ])
+            //->add('adonner', Type\CheckboxType::class, [
+            //    'required' => false,
+            //])
             ->add('tags', TagsCollectionType::class, [
                 'required' => false,
-//                'autocomplete' => true,
-//                'autocomplete_url' => '/tags',
-//                'tom_select_options' => [
-//                    'create' => true,
-//                ],
             ])
         ;
 

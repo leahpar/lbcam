@@ -16,7 +16,7 @@
     {% endfor %}
 
     <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
-    <a href="{{ path('truc_delete', {slug: truc.slug}) }}">Supprimer</a>
+    <a href="{{ path('truc_delete', {slug: truc.slug}) }}" onclick="return confirm('Supprimer le truc ? Cette action est définitive et irrévocable.')">Supprimer</a>
 
     {# Propriétaire du truc #}
     {% if app.user == truc.user %}
