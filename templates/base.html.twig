@@ -2,9 +2,16 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
 
         <title>LBCAM !</title>
-        {# TODO: favicon, PWA toussa toussa #}
+
+        <!-- PWA -->
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+        <meta name="theme-color" content="#14b8a6">
+        <script src="{{ asset('js/pwa.js') }}"></script>
+        <link rel="icon" type="image/png" href="{{ asset('img/icon-512.png') }}"> {# => https://maskable.app #}
+
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.2.3/dist/css/tom-select.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css">
