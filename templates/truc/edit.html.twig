@@ -9,6 +9,9 @@
         .dz-size {
             display: none;
         }
+        .dz-message {
+            display: block !important;
+        }
         .dz-preview:hover .dz-image img {
             transform: scale(1) !important;
             -webkit-filter: blur(0px) !important;
@@ -84,7 +87,8 @@
 
             dictCancelUpload: "Annuler",
             dictRemoveFile: "Supprimer",
-            dictDefaultMessage: "Ajouter des photos...",
+            dictRemoveFileConfirmation: "Supprimer l'image ?",
+            dictDefaultMessage: "Cliquez ou déposez des photos ici pour les ajouter",
 
             init: function() {
                 {% for image in truc.images %}
@@ -97,13 +101,13 @@
         });
 
         myDropzone.on('complete', (file) => {
-            console.log('complete', file);
+            //console.log('complete', file);
             const image = JSON.parse(file.xhr.response).image;
             file.image_id = image.id;
         });
 
         myDropzone.on('removedfile', (file) => {
-            console.log('removedfile', file);
+            //console.log('removedfile', file);
             const url = '{{ path('truc_del_image', {slug: truc.slug, id: "XX"}) }}'.replace('XX', file.image_id);
             fetch(url, {method: 'DELETE'})
                 .then(response => response.json())

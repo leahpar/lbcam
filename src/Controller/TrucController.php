@@ -35,13 +35,9 @@ class TrucController extends AbstractController
 
         $trucs = $em->getRepository(Truc::class)->search($search);
 
-        // Les tags populaires
-//        $tags = $em->getRepository(Truc::class)->getTagsCpt();
-
         return $this->render('truc/index.html.twig', [
             'trucs' => $trucs,
             'search' => $search,
-//            'tags' => $tags,
         ]);
     }
 

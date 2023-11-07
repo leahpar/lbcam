@@ -6,8 +6,10 @@
 
     {% if search.tag %}
         pour "{{ search.tag }}"
+        <a href="{{ path('trucs_list') }}">[X]</a>
     {% elseif search.search %}
         pour "{{ search.search }}"
+        <a href="{{ path('trucs_list') }}">[X]</a>
     {% endif %}
 
     <div>
@@ -17,5 +19,6 @@
     </div>
 
     {{ include('truc/pagination.html.twig', {search: search}) }}
+
 
 {% endblock %}

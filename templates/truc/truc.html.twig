@@ -2,7 +2,11 @@
 
     <a href="{{ path('truc_show', { slug: truc.slug }) }}">
         <h2>{{ truc.nom }}</h2>
-        <img src="{{ asset('images/' ~ truc.mainImage) }}" style="object-fit: contain" width="200px">
+        {% if truc.mainImage %}
+            <img src="{{ asset('images/' ~ truc.mainImage) }}" style="object-fit: contain" width="200px">
+        {% else %}
+            <img src="{{ asset('img/no-image.jpg') }}" style="object-fit: contain" width="200px">
+        {% endif %}
     </a>
 
     {# Propriétaire du truc #}

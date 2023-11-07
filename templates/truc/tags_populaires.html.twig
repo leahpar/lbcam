@@ -1,0 +1,9 @@
+<div>
+    <p>Les tags populaires</p>
+    <ul>
+        {# les 10 premiers tags #}
+        {% for tag in tags|slice(0, 10) %}
+            <li><a href="{{ path('trucs_list', {tag: tag.slug}) }}">{{ tag.nom }} ({{ tag.cpt }} trucs)</a></li>
+        {% endfor %}
+    </ul>
+</div>

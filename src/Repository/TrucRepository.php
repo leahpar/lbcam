@@ -47,9 +47,15 @@ class TrucRepository extends ServiceEntityRepository
                     ->setParameter('word', "%{$word}%");
             }
         }
+
         if ($search->tag) {
             $query->andWhere('tag.slug = :tag')
                 ->setParameter('tag', $search->tag);
+        }
+
+        if ($search->publie !== null) {
+            $query->andWhere('t.publie = :publie')
+                ->setParameter('publie', $search->publie);
         }
 
         if ($search->user) {
@@ -59,8 +65,11 @@ class TrucRepository extends ServiceEntityRepository
 
         $order = $search->order ?? 'DESC';
         switch ($search->tri) {
-            default:
+            case 'nom':
                 $query->orderBy('t.nom', $order);
+                break;
+            default:
+                $query->orderBy('t.id', $order);
                 break;
         }
 
@@ -71,7 +80,9 @@ class TrucRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('truc')
             ->join('truc.tags', 'tag')
-            ->select('tag.nom as nom, count(truc.id) as cpt')
+            ->select('tag.nom as nom')
+            ->addSelect('tag.slug as slug')
+            ->addSelect('count(truc.id) as cpt')
             ->groupBy('tag.id')
             ->orderBy('cpt', 'DESC')
             ->having('cpt > 1')
@@ -79,9 +90,11 @@ class TrucRepository extends ServiceEntityRepository
 
         $res = $query->getArrayResult();
 
-        return array_combine(
+        return array_map(
+            fn ($nom, $slug, $cpt) => compact('nom', 'slug', 'cpt'),
             array_column($res, 'nom'),
-            array_column($res, 'cpt')
+            array_column($res, 'slug'),
+            array_column($res, 'cpt'),
         );
     }
 }

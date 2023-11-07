@@ -10,7 +10,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Provider\Fakecar;
-use Faker\Provider\Person;
 use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -65,12 +64,13 @@ class AppFixtures extends Fixture
             $tags[] = $tag;
         }
 
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $truc = new Truc();
             $truc->nom = $faker->vehicle();
             $truc->slug = strtolower($slugger->slug($truc->nom));
             $truc->description = $faker->paragraphs(random_int(2, 3), true);
             $truc->user = $users[random_int(0, count($users) - 1)];
+            $truc->publie = (bool)random_int(0, 1);
             for ($j = 0; $j < random_int(1, 5); $j++) {
                 $truc->addTag($tags[random_int(0, count($tags) - 1)]);
             }
