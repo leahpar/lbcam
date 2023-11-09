@@ -29,33 +29,36 @@
     {# Propriétaire du truc #}
     {% if app.user == truc.user %}
 
-        <form action="{{ path('truc_publier', {slug: truc.slug}) }}" method="post">
-        {% if truc.publie %}
-            Publié
-            <button type="submit" name="publie" value="false">Dépublier</button>
-        {% else %}
-            Non publié
-            <button type="submit" name="publie" value="true">Publier</button>
-        {% endif %}
-        </form>
+        <p>
+            Statut :
+            {% if truc.publie %}
+                Publié
+                <a href="{{ path('truc_publier', {slug: truc.slug, publie: false}) }}">Dépublier</a>
+            {% else %}
+                Non publié
+                <a href="{{ path('truc_publier', {slug: truc.slug, publie: true}) }}">Publier</a>
+            {% endif %}
+        </p>
 
-        {% if truc.isPrete %}
-            En cours de prêt...
-            <a href="{{ path('truc_rendre', {slug: truc.slug}) }}" onclick="return confirm('Le truc a bien été rendu ?')">Rendre</a>
-        {% else %}
-            <a href="{{ path('truc_preter', {slug: truc.slug}) }}">Prêter</a>
-        {% endif %}
+        <p>
+            {% if truc.isPrete %}
+                En cours de prêt...
+                <a href="{{ path('truc_rendre', {slug: truc.slug}) }}" onclick="return confirm('Le truc a bien été rendu ?')">Rendre</a>
+            {% else %}
+                <a href="{{ path('truc_preter', {slug: truc.slug}) }}">Prêter</a>
+            {% endif %}
+        </p>
 
-        {% for pret in truc.prets %}
-            <p>
+        <p>
+            {% for pret in truc.prets %}
                 Prêté à {{ pret.user.nom }}
                 le {{ pret.dateDebut|date('d/m/Y') }}
-
                 {% if pret.dateFin %}
                 rendu le {{ pret.dateFin|date('d/m/Y') }}
                 {% endif %}
-            </p>
-        {% endfor %}
+                <br>
+            {% endfor %}
+        </p>
     {% endif %}
 
 {% endblock %}

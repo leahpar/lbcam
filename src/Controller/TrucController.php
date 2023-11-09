@@ -115,10 +115,10 @@ class TrucController extends AbstractController
         ]);
     }
 
-    #[Route('trucs/{slug}/publier', name: 'truc_publier', methods: ['POST'])]
+    #[Route('trucs/{slug}/publier', name: 'truc_publier')]
     public function publier(Request $request, EntityManagerInterface $em, Truc $truc): Response
     {
-        $truc->publie = $request->request->getBoolean('publie');
+        $truc->publie = $request->query->getBoolean('publie');
         $em->flush();
 
         $referer = $request->headers->get('referer');

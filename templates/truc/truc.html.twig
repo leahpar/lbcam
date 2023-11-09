@@ -12,17 +12,17 @@
     {# Propriétaire du truc #}
     {% if app.user == truc.user %}
 
-        <form action="{{ path('truc_publier', {slug: truc.slug}) }}" method="post">
-            {% if truc.publie %}
-                Publié
-                <button type="submit" name="publie" value="false">Dépublier</button>
-            {% else %}
-                Non publié
-                <button type="submit" name="publie" value="true">Publier</button>
-            {% endif %}
-        </form>
+        <p>
+        {% if truc.publie %}
+            Publié
+            <a href="{{ path('truc_publier', {slug: truc.slug, publie: false}) }}">Dépublier</a>
+        {% else %}
+            Non publié
+            <a href="{{ path('truc_publier', {slug: truc.slug, publie: true}) }}">Publier</a>
+        {% endif %}
+        </p>
 
-
+        <p>
         {% if truc.pret %}
             Prêté à {{ truc.pret.user }}
             le {{ truc.pret.dateDebut|date('d/m/Y') }}
@@ -30,12 +30,15 @@
         {% else %}
             <a href="{{ path('truc_preter', {slug: truc.slug}) }}">Prêter</a>
         {% endif %}
+        </p>
 
     {% else %}
 
+        <p>
         {% if truc.pret %}
             Déjà prêté !
         {% endif %}
+        </p>
 
     {% endif %}
 
