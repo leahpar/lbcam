@@ -36,6 +36,9 @@ class Truc
     #[ORM\Column(type: Types::BOOLEAN)]
     public bool $publie = false;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    public bool $brouillon = true;
+
     #[ORM\OneToMany(mappedBy: 'truc', targetEntity: Pret::class, orphanRemoval: true)]
     #[ORM\OrderBy(['dateDebut' => 'DESC', 'id' => 'DESC'])]
     public Collection $prets;
@@ -98,6 +101,7 @@ class Truc
     }
 
     #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setSlug(): void
     {
         $slugger = new AsciiSlugger();

@@ -42,20 +42,45 @@ class TrucController extends AbstractController
     }
 
     #[Route('/nouveau-truc', name: 'trucs_add')]
-    #[Route('/trucs/{slug}/modifier', name: 'truc_edit')]
-    public function edit(
-        Request $request,
-        EntityManagerInterface $em,
-        ?Truc $truc = null,
-    ): Response
+    public function add(EntityManagerInterface $em)
     {
-        $truc ??= new Truc();
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $brouillon = $em->getRepository(Truc::class)->findOneBy([
+            'user' => $user,
+            'brouillon' => true,
+        ]);
+
+        if (!$brouillon) {
+            $brouillon = new Truc();
+            $brouillon->user = $user;
+            $brouillon->nom = "Nouveau truc #".rand(1000, 9999);
+            $em->persist($brouillon);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('truc_edit', ['slug' => $brouillon->slug]);
+    }
+
+    #[Route('/trucs/{slug}/modifier', name: 'truc_edit')]
+    public function edit(Request $request, EntityManagerInterface $em, Truc $truc): Response
+    {
+        if ($truc->brouillon) {
+            $truc->nom = null;
+            $truc->brouillon = false;
+        }
+
         $form = $this->createForm(TrucType::class, $truc);
 
         $tags = $em->getRepository(Tag::class)->search(new TagSearch(['limit' => 0]));
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->getBoolean('publier')) {
+                $truc->publie = true;
+            }
 
             $em->persist($truc);
             $em->flush();
