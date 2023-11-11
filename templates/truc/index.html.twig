@@ -14,11 +14,13 @@
 
     <div>
         {% for truc in trucs %}
-            {{ include('truc/truc.html.twig', { truc: truc }) }}
+{#            {{ include('truc/truc.html.twig', { truc: truc }) }}#}
+            <twig:truc truc="{{ truc }}"/>
         {% endfor %}
     </div>
 
-    {{ include('truc/pagination.html.twig', {search: search}) }}
+{#    {{ include('truc/pagination.html.twig', {search: search}) }}#}
+    <twig:pagination search="{{ search }}"/>
 
 
 {% endblock %}

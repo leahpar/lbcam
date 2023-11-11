@@ -24,37 +24,21 @@
 
             {% if app.user %}
 
-                {# Recherche (nom, tag) #}
+                {# Recherche générale (nom, tag) #}
                 <form method="get" action="{{ path('trucs_list') }}">
                     <input type="search" name="search" placeholder="Rechercher un truc">
                 </form>
 
                 {# Menu #}
-                <nav>
-                    <ul>
-                        <li><a href="{{ path('trucs_list') }}">Accueil</a></li>
-                        <li><a href="{{ path('trucs_add') }}">Proposer un trucs</a></li>
-                        <li><a href="{{ path('trucs_list', {me: true}) }}">Mes trucs</a></li>
-                        <li><a href="{{ path('app_logout') }}">Me déconnecter</a></li>
-                    </ul>
-                </nav>
+                <twig:menu />
 
             {% endif %}
 
             {# Messages flash #}
-            <div id="flashContainer">
-                {# label : 'notice', 'success', 'warning', 'error' #}
-                {% set class = {'notice':'bg-navy','success':'bg-aqua','warning':'bg-or','error':'bg-red'} %}
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="flashMessage text-white font-bold p-3 text-center {{ class[label] }}">
-                            {{ message|raw }}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-            </div>
+            <twig:flash />
 
-            {{ render(path('tags_populaires')) }}
+            {# Tags populaires #}
+            <twig:tags type="populaires" />
 
         </header>
 

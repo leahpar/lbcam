@@ -1,3 +1,5 @@
+{# AsTwigComponent #}
+
 <div>
 
     <a href="{{ path('truc_show', { slug: truc.slug }) }}">
@@ -10,7 +12,7 @@
     </a>
 
     {# Propriétaire du truc #}
-    {% if app.user == truc.user %}
+    {% if isProprietaire %}
 
         <p>
         {% if truc.publie %}

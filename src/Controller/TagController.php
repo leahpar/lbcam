@@ -28,13 +28,14 @@ class TagController extends AbstractController
         ]);
     }
 
-    #[Route('/tags/populaires', name: 'tags_populaires')]
-    public function nuageTag(EntityManagerInterface $em): Response
-    {
-        $tags = $em->getRepository(Truc::class)->getTagsCpt();
-        return $this->render('truc/tags_populaires.html.twig', [
-            'tags' => $tags,
-        ]);
-    }
+//    => TagsComponent
+//    #[Route('/tags/populaires', name: 'tags_populaires')]
+//    public function nuageTag(EntityManagerInterface $em): Response
+//    {
+//        $tags = $em->getRepository(Truc::class)->getTagsCpt();
+//        return $this->render('truc/tags_populaires.html.twig', [
+//            'tags' => $tags,
+//        ]);
+//    }
 
 }

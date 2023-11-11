@@ -151,6 +151,10 @@ class TrucController extends AbstractController
         $truc->publie = $request->query->getBoolean('publie');
         $em->flush();
 
+        if ($truc->publie) {
+            $this->addFlash('success', "'$truc->nom' publié !");
+        }
+
         $referer = $request->headers->get('referer');
         return $this->redirect($referer);
     }
@@ -161,6 +165,7 @@ class TrucController extends AbstractController
     {
         $em->remove($truc);
         $em->flush();
+        $this->addFlash('success', "'$truc->nom' supprimé !");
         return $this->redirectToRoute('trucs_list');
     }
 

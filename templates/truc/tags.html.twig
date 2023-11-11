@@ -1,5 +1,7 @@
+{# AsTwigComponent #}
+
 <div>
-    <p>Les tags populaires</p>
+    <p>Les tags {{ type }}</p>
     <ul>
         {# les 10 premiers tags #}
         {% for tag in tags|slice(0, 10) %}
