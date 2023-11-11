@@ -20,12 +20,6 @@
         {% endfor %}
     </p>
 
-    <p>
-        Actions :
-        <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
-        <a href="{{ path('truc_delete', {slug: truc.slug}) }}" onclick="return confirm('Supprimer le truc ? Cette action est définitive et irrévocable.')">Supprimer</a>
-    </p>
-
     {# Propriétaire du truc #}
     {% if app.user == truc.user %}
 
@@ -38,6 +32,12 @@
                 Non publié
                 <a href="{{ path('truc_publier', {slug: truc.slug, publie: true}) }}">Publier</a>
             {% endif %}
+        </p>
+
+        <p>
+            Actions :
+            <a href="{{ path('truc_edit', {slug: truc.slug}) }}">Editer</a>
+            <a href="{{ path('truc_delete', {slug: truc.slug}) }}" onclick="return confirm('Supprimer le truc ? Cette action est définitive et irrévocable.')">Supprimer</a>
         </p>
 
         <p>

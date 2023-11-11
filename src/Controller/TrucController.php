@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class TrucController extends AbstractController
@@ -64,6 +65,7 @@ class TrucController extends AbstractController
     }
 
     #[Route('/trucs/{slug}/modifier', name: 'truc_edit')]
+    #[IsGranted('edit', 'truc')]
     public function edit(Request $request, EntityManagerInterface $em, Truc $truc): Response
     {
         if ($truc->brouillon) {
@@ -96,6 +98,7 @@ class TrucController extends AbstractController
     }
 
     #[Route('/trucs/{slug}/uploads', name: 'truc_add_image', methods: ['POST'])]
+    #[IsGranted('edit', 'truc')]
     public function trucAddImage(Request $request, EntityManagerInterface $em, Truc $truc): Response
     {
         $slugger = new AsciiSlugger();
@@ -124,6 +127,7 @@ class TrucController extends AbstractController
     }
 
     #[Route('/trucs/{slug}/uploads/{id}', name: 'truc_del_image', methods: ['DELETE'])]
+    #[IsGranted('edit', 'truc')]
     public function trucDelImage(
         EntityManagerInterface $em,
         #[MapEntity(mapping: ['slug' => 'slug'])]
@@ -141,6 +145,7 @@ class TrucController extends AbstractController
     }
 
     #[Route('trucs/{slug}/publier', name: 'truc_publier')]
+    #[IsGranted('edit', 'truc')]
     public function publier(Request $request, EntityManagerInterface $em, Truc $truc): Response
     {
         $truc->publie = $request->query->getBoolean('publie');
@@ -151,6 +156,7 @@ class TrucController extends AbstractController
     }
 
     #[Route('/trucs/{slug}/delete', name: 'truc_delete')]
+    #[IsGranted('edit', 'truc')]
     public function delete(Truc $truc, EntityManagerInterface $em): Response
     {
         $em->remove($truc);
@@ -159,14 +165,12 @@ class TrucController extends AbstractController
     }
 
     #[Route('/trucs/{slug}', name: 'truc_show')]
+    #[IsGranted('view', 'truc')]
     public function show(Truc $truc): Response
     {
         return $this->render('truc/show.html.twig', [
             'truc' => $truc,
         ]);
     }
-
-
-
 
 }

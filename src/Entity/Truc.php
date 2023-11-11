@@ -7,10 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: TrucRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+//#[ORM\HasLifecycleCallbacks]
 class Truc
 {
     #[ORM\Id]
@@ -24,7 +24,8 @@ class Truc
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     public ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
+    #[Gedmo\Slug(fields: ['nom'])]
     public ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'truc', targetEntity: Image::class, orphanRemoval: true)]
@@ -100,13 +101,13 @@ class Truc
         return $this;
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function setSlug(): void
-    {
-        $slugger = new AsciiSlugger();
-        $this->slug = strtolower($slugger->slug($this->nom));
-    }
+//    #[ORM\PrePersist]
+//    #[ORM\PreUpdate]
+//    public function setSlug(): void
+//    {
+//        $slugger = new AsciiSlugger();
+//        $this->slug = strtolower($slugger->slug($this->nom));
+//    }
 
     public function isPrete(): bool
     {
