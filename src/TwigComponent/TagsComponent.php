@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 
-#[AsTwigComponent(name:'tags', template: 'truc/tags.html.twig')]
+#[AsTwigComponent(name:'tags', template: 'components/tags.html.twig')]
 class TagsComponent
 {
 
